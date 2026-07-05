@@ -8,7 +8,7 @@ declare global{
     var mongoose:MongooseCache | undefined;
 }
 
-const MONGODB_URI = process.env.MONGODB_URI
+const MONGODB_URI = process.env.MONGODB_URII
 
 const cached:MongooseCache = global.mongoose || {conn: null, promise: null}
 
@@ -43,6 +43,7 @@ async function connectDB(): Promise<typeof mongoose> {
   try {
     // Wait for the connection to establish
     cached.conn = await cached.promise;
+    console.log("MongoDB connected successfully");
   } catch (error) {
     // Reset promise on error to allow retry
     cached.promise = null;
