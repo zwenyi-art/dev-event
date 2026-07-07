@@ -9,7 +9,7 @@ export type EventItem = {
 
 export const events: EventItem[] = [
   {
-    image: "/images/event1.png",
+    image: "https://res.cloudinary.com/detwp36e7/image/upload/v1783400375/DevEvent/gpdy1l5ksawjpjhlsedh.png",
     title: "React Summit US 2025",
     slug: "react-summit-us-2025",
     location: "San Francisco, CA, USA",
