@@ -3,7 +3,6 @@ import {NextRequest,NextResponse} from "next/server";
 import connectDB from "@/lib/mongodb";
 import { Event } from "@/database";
 import cloudinary from "@/lib/cloudinary";
-import { readFileSync } from "fs";
 export async function GET(){
     await connectDB();
     const events = await Event.find().sort({ createdAt: -1 });

@@ -9,7 +9,7 @@ interface Props {
     date: string;
     time: string;
 }
-const EventCard = ({ title, image, slug, location, date, time }: Props) => {
+const EventCard = ({  title, image, slug, location, date, time }: Props) => {
   return (
       <Link href={`/events/${slug}`} id="event-card">
             <Image src={image} alt={title} width={410} height={300} className="poster" />

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
-
+import { IEvent } from "@/database";
+import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
+import EventCard from "@/components/EventCard";
 type PageProps = {
     params:Promise< {
         slug: string;
@@ -39,7 +41,7 @@ const page = async ({ params }: PageProps) => {
   let event;
   try {
      const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
-            next: { revalidate: 60 }
+            next: { revalidate:1 }
         });
 
         if (!request.ok) {
@@ -60,9 +62,11 @@ const page = async ({ params }: PageProps) => {
     return notFound()
   }
 
-  const { description, image, overview, date, time, location, mode, agenda, audience, tags, organizer } = event;
+  const { _id,description, image, overview, date, time, location, mode, agenda, audience, tags, organizer } = event;
   if(!description) return notFound();
   const bookings = 10;
+  const similarEvents: IEvent[] = await getSimilarEventsBySlug(_id);
+//   console.log('Similar Events:', similarEvents); // Debugging line
   return (
         <section id="event">
             <div className="header">
@@ -117,14 +121,14 @@ const page = async ({ params }: PageProps) => {
                 </aside>
             </div>
 
-            {/* <div className="flex w-full flex-col gap-4 pt-20">
+            <div className="flex w-full flex-col gap-4 pt-20">
                 <h2>Similar Events</h2>
                 <div className="events">
                     {similarEvents.length > 0 && similarEvents.map((similarEvent: IEvent) => (
-                        <EventCard key={similarEvent.title} {...similarEvent} />
+                        <EventCard key={similarEvent.slug} {...similarEvent} />
                     ))}
                 </div>
-            </div> */}
+            </div>
         </section>
     )
 }
