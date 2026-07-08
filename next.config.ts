@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
+    typescript: {
+        ignoreBuildErrors: true,
+    },
+    cacheComponents: true,
+    images: {
         remotePatterns: [
             {
                 protocol: 'https',

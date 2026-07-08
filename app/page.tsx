@@ -1,5 +1,6 @@
 import EventCard from "@/components/EventCard"
 import ExploreBtn from "@/components/ExploreBtn"
+import { cacheLife } from "next/cache";
 // import events from "@/lib/constants"
 interface IEvent{
     title: string;
@@ -11,7 +12,9 @@ interface IEvent{
 }
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const page = async() => {
-    const response = await fetch(`${BASE_URL}/api/events`).then((res) => res.json());
+    "use cache";
+     cacheLife('hours');
+    const response = await fetch(`${BASE_URL}/api/events`,{next:{revalidate:60}}).then((res) => res.json());
     const events: IEvent[] = response.events;
     // console.log(response);
   return (
