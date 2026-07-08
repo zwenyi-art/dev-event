@@ -1,6 +1,6 @@
 import EventCard from "@/components/EventCard"
 import ExploreBtn from "@/components/ExploreBtn"
-import events from "@/lib/constants"
+// import events from "@/lib/constants"
 interface IEvent{
     title: string;
     image: string;
@@ -9,7 +9,11 @@ interface IEvent{
     date: string;
     time: string;
 }
-const page = () => {
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const page = async() => {
+    const response = await fetch(`${BASE_URL}/api/events`).then((res) => res.json());
+    const events: IEvent[] = response.events;
+    // console.log(response);
   return (
     <section>
       <h1 className="text-center">The Hub for Every Dev <br /> Event You Can&apos;t Miss</h1>
@@ -19,7 +23,7 @@ const page = () => {
                 <h3>Featured Events</h3>
                 <ul className="events">
                     {events && events.length > 0 && events.map((event: IEvent) => (
-                        <li key={event.title} className="list-none">
+                        <li key={event.slug} className="list-none">
                             <EventCard {...event} />
                         </li>
                     ))}
