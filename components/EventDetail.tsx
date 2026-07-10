@@ -5,6 +5,12 @@ import { IEvent } from "@/database";
 import {getSimilarEventsBySlug} from "@/lib/actions/event.actions";
 import EventCard from "@/components/EventCard";
 import { cacheLife } from "next/cache";
+import BookEvent from "./BookEvent";
+type Props = {
+    params: Promise<{
+        slug: string;
+    }>;
+};
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -34,9 +40,10 @@ const EventTags = ({ tags }: { tags: string[] }) => (
     </div>
 )
 
-const EventDetail = async ({ slug }: { slug: string }) => {
+const EventDetail = async ({ params }: Props) => {
   'use cache';
   cacheLife("hours");
+  const {slug} = await params;
   let event;
   try {
      const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
@@ -67,7 +74,7 @@ const EventDetail = async ({ slug }: { slug: string }) => {
   const similarEvents: IEvent[] = await getSimilarEventsBySlug(_id);
 //   console.log('Similar Events:', similarEvents); // Debugging line
   return (
-        <section id="event">
+        <section id="event" className = "relative">
             <div className="header">
                 <h1>Event Description</h1>
                 <p>{description}</p>
@@ -115,7 +122,7 @@ const EventDetail = async ({ slug }: { slug: string }) => {
                             <p className="text-sm">Be the first to book your spot!</p>
                         )}
 
-                        {/* <BookEvent eventId={event._id} slug={event.slug} /> */}
+                        <BookEvent eventId={event._id} slug={event.slug} />
                     </div>
                 </aside>
             </div>

@@ -6,12 +6,11 @@ type PageProps = {
     }>
 };
 
-const page = async({ params }: PageProps) => {
-    const {slug} = await params;
+const page = async({ params }: PageProps) => { 
   return (
     <main>
         <Suspense fallback={<div>Loading...</div>}>
-            <EventDetail slug={slug}></EventDetail>
+            <EventDetail params={params}></EventDetail>
         </Suspense>
     </main>
   )
