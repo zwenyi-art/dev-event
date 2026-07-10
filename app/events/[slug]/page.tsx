@@ -1,6 +1,18 @@
-const page = () => {
+import EventDetail from "@/components/EventDetail";
+import { Suspense } from "react";
+type PageProps = {
+    params:Promise< {
+        slug: string;
+    }>
+};
+
+const page = async({ params }: PageProps) => { 
   return (
-    <div>Event Detail page</div>
+    <main>
+        <Suspense fallback={<div>Loading...</div>}>
+            <EventDetail params={params}></EventDetail>
+        </Suspense>
+    </main>
   )
 }
 
